@@ -1,0 +1,102 @@
+/*
+ * Scenario: Booking for Airbnb
+ * Desc: A tourist wants to book a house on Airbnb app.
+ *
+ * Objects:
+ *
+ * Object: Tourist
+ *          State: name, emailAddress, destination
+ *          Behavior: useApp(), fillSearchForm(), bookHouse(), providePaymentInfo()
+ * Object: App
+ *          State:
+ *          Behavior: showSearchForm(), showAvailableHouses(), communicateError()
+ *                  generateTotalBill(), processBookingPayment(), notifyHost(), emailReceipt()
+ * Object: BookingInfo
+ *          State: dateCheckIn, dateCheckOut, houseToBook
+ * Object: House
+ *          State: id, address, ratePerNight
+ * Object: Host
+ *          State: name, emailAddress, house
+ * Object: CreditCard
+ *          State: number, ownerName, expMonth, expYear, securityCode
+ */
+import java.util.Date;
+
+class Tourist {
+    String name, destination, email;
+
+    void useApp(App appName) {}
+    void fillSearchForm(String destination, BookingInfo info) {}
+    void bookHouse(BookingInfo info) {}
+    void providePaymentInfo(CreditCard card, float amount) {}
+}
+
+class App {
+    void showSearchForm() {}
+    House[] showAvailableHouses() {}
+    float generateTotalBill(BookingInfo info) {}
+    boolean processBookingPayment() {
+        // Returns true if payment is successful, false otherwise
+    }
+    void notifyHost(String hostEmail) {}
+    void emailReceipt(String touristEmail) {}
+    void communicateError() {}
+}
+
+class BookingInfo {
+    Date dateCheckIn, dateCheckOut;
+    House houseToBook;
+}
+
+class House {
+    int id;
+    String address;
+    float ratePerNight;
+}
+
+class Host {
+    String name, email;
+    House house;
+}
+
+class CreditCard {
+    String number, ownerName;
+    int expMonth, expYear, securityCode;
+}
+
+    public static void main(String args[]) {
+        Tourist ken = new Tourist();
+        App airbnb = new App();
+        ken.name = "Ken Prayogo";
+        ken.email = "someemail@gmail.com";
+        ken.destination = "Hawaii";
+        BookingInfo bookingInfo = new BookingInfo();
+        bookingInfo.dateCheckIn = new Date("2016-12-25");
+        bookingInfo.dateCheckOut = new Date("2016-12-30");
+
+        ken.useApp(airbnb);
+        airbnb.showSearchForm();
+        ken.fillSearchForm(ken.destination, bookingInfo);
+        House[] houses = airbnb.showAvailableHouses();
+        bookingInfo.houseToBook = houses[0]; // Tourist makes a choice
+        ken.bookHouse(bookingInfo);
+        float totalDue = airbnb.generateTotalBill(bookingInfo);
+
+        CreditCard kensCard = new CreditCard();
+        kensCard.number = "1111-1111-1111-1111";
+        kensCard.ownerName = "Ken Prayogo";
+        kensCard.expMonth = 12;
+        kensCard.expYear = 2020;
+        kensCard.securityCode = 111;
+        ken.providePaymentInfo(kensCard, totalDue);
+
+        boolean response = airbnb.processBookingPayment();
+        if (response) {
+            airbnb.emailReceipt(ken.email);
+            Host host = new Host(); // Found using House info
+            airbnb.notifyHost(host.email);
+        } else {
+            airbnb.communicateError();
+        }
+    }
+}
