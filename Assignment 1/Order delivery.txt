@@ -1,0 +1,91 @@
+/*
+ * Scenario: Order for Delivery
+ * Desc: A consumer is going to order a delivery through phone calls.
+ *
+ * Objects:
+ *
+ * Object: Consumer
+ *          State: name, address
+ *          Behavior: callWithPhone(), listOrder(), providePaymentInfo()
+ * Object: Business
+ *          State: phoneNumber, items
+ *          Behavior: acceptPhoneCall(), checkInventory(), processOrder()
+ * Object: Phone
+ *          State: phoneNumber
+ *          Behavior: connectWithNumber()
+ * Object: Item
+ *          State: name, price
+ * Object: CreditCard
+ *          State: number, ownerName, expMonth, expYear, securityCode
+ */
+import java.util.ArrayList;
+
+class Consumer {
+    String name;
+    String address;
+
+    Phone callWithPhone(Phone phone) {}
+    void listOrder(String itemNames[]) {}
+    void providePaymentInfo(CreditCard card, float amount) {}
+}
+
+class Business {
+    String phoneNumber;
+    ArrayList<Item> items;
+
+    void acceptPhoneCall(String phoneNumber) {}
+    ArrayList<Item> checkInventory(String itemNames[]) {
+        // Checks if store has the items with the provided names and returns
+        // both name and price for each item if available.
+        return this.items;
+    }
+    void processOrder() {}
+}
+
+class Phone {
+    String phoneNumber;
+    void connectWithNumber(String dialNumber) {}
+}
+
+class Item {
+    String name;
+    float price;
+}
+
+class CreditCard {
+    String number, ownerName;
+    int expMonth, expYear, securityCode;
+}
+
+class OrderDelivery {
+    public static void main(String args[]) {
+        Consumer ken = new Consumer();
+        ken.name = "Ken Prayogo";
+        ken.address = "1234 X St. Seattle, WA";
+        Business store = new Business();
+        store.phoneNumber = "206-xxx-xxxx";
+        Phone homePhone = new Phone();
+        homePhone.phoneNumber = "206-yyy-yyyy";
+
+        ken.callWithPhone(homePhone);
+        homePhone.connectWithNumber(store.phoneNumber);
+        store.acceptPhoneCall(homePhone.phoneNumber);
+        String thingsToOrder[] = {"Guitar", "Audio Jack", "Amplifier"};
+        ken.listOrder(thingsToOrder);
+        ArrayList<Item> itemsAvailable = store.checkInventory(thingsToOrder);
+        if (itemsAvailable.size() == thingsToOrder.length) {
+            float totalBill = 0;
+            for (Item item : itemsAvailable) {
+                totalBill += item.price;
+            }
+            CreditCard kensCard = new CreditCard();
+            kensCard.number = "1111-1111-1111-1111";
+            kensCard.ownerName = "Ken Prayogo";
+            kensCard.expMonth = 12;
+            kensCard.expYear = 2020;
+            kensCard.securityCode = 111;
+            ken.providePaymentInfo(kensCard, totalBill);
+            store.processOrder();
+        }
+    }
+}
