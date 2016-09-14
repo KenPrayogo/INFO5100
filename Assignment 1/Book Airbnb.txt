@@ -64,6 +64,7 @@ class CreditCard {
     int expMonth, expYear, securityCode;
 }
 
+class BookHouse {
     public static void main(String args[]) {
         Tourist ken = new Tourist();
         App airbnb = new App();
