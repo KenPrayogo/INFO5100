@@ -4,7 +4,7 @@
  *
  * Objects:
  *
- * Object: StudentTest
+ * Object: Student
  *          State: id, name
  *          Behavior: visitWebsite(), viewAllStatements(), payMoneyToWebsite()
  * Object: Website
