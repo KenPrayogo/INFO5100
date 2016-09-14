@@ -1,0 +1,83 @@
+/*
+ * Scenario: Pay Tuition
+ * Desc: A student wants to pay his tuition through myNEU account.
+ *
+ * Objects:
+ *
+ * Object: StudentTest
+ *          State: id, name
+ *          Behavior: visitWebsite(), viewAllStatements(), payMoneyToWebsite()
+ * Object: Website
+ *          State: statements
+ *          Behavior: displayDashboard(), showStudentBillingStatements(), processPayment(), 
+ *                      displayRemainingBalance(), communicateError()
+ * Object: BillingStatement
+ *          State: id, amountDue, dueDate, isPaid
+ * Object: Money
+ *          State: amount
+ */
+import java.util.Date;
+
+class Student {
+    int id;
+    String name;
+
+    void visitWebsite(Website web) {}
+    void viewAllStatements() {
+        // Requests site to show all billing statements
+    }
+    boolean payMoneyToWebsite(Money value, Website website) {
+        // Pay money and gets true if successful, false otherwise
+    }
+}
+
+class Website {
+    BillingStatement[] statements;
+    void displayDashboard() {}
+    BillingStatement[] showStudentBillingStatements(int studentId) {};
+    float processPayment(Money value, int studentId) {
+        // Processes the payment for a statement and returns remaining balance for Student
+    }
+    float displayRemainingBalance(float amount) {}
+    String communicateError() {}
+}
+
+class BillingStatement {
+    int id;
+    float amountDue;
+    Date dueDate;
+    boolean isPaid;
+}
+
+class Money {
+    float amount;
+}
+
+class PayTuition {
+    public static void main(String args[]) {
+        Website myNEU = new Website();
+        Student ken = new Student();
+        ken.id = 7;
+        ken.name = "Ken";
+
+        ken.visitWebsite(myNEU);
+        myNEU.displayDashboard();
+        ken.viewAllStatements();
+        BillingStatement[] statements = myNEU.showStudentBillingStatements(ken.id);
+        BillingStatement billToPay = statements[0]; // Choose one statement
+        // Only pay if the statement has not been paid yet
+        if (!billToPay.isPaid) {
+            Money amountUsd = new Money();
+            amountUsd.amount = billToPay.amountDue;
+            boolean response = ken.payMoneyToWebsite(amountUsd, myNEU);
+            if (response) {
+                // If payment is successful...
+                float remainingBalance = myNEU.processPayment(amountUsd, ken.id);
+                myNEU.displayRemainingBalance(remainingBalance);
+            } else {
+                // If payment was rejected/other errors occurred
+                myNEU.communicateError();
+            }
+        }
+    }
+}
