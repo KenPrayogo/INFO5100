@@ -11,7 +11,7 @@
  *          Behavior: showSearchForm(), showAvailableHouses(), communicateError()
  *                  generateTotalBill(), processBookingPayment(), notifyHost(), emailReceipt()
  * Object: BookingInfo
- *          State: destination, dateCheckIn, dateCheckOut, houseToBook
+ *          State: tenant, destination, dateCheckIn, dateCheckOut, houseToBook
  * Object: House
  *          State: id, address, ratePerNight
  * Object: Host
@@ -43,6 +43,7 @@ class App {
 }
 
 class BookingInfo {
+    Tourist tenant;
     String destination;
     Date dateCheckIn, dateCheckOut;
     House houseToBook;
@@ -71,6 +72,7 @@ class BookHouse {
         ken.name = "Ken Prayogo";
         ken.email = "someemail@gmail.com";
         BookingInfo bookingInfo = new BookingInfo();
+        bookingInfo.tenant = ken;
         bookingInfo.destination = "Hawaii";
         bookingInfo.dateCheckIn = new Date("2016-12-25");
         bookingInfo.dateCheckOut = new Date("2016-12-30");
