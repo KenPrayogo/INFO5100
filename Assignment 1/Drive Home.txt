@@ -6,7 +6,7 @@
  *
  * Object: Student
  *          State: car
- *          Behavior: goToCar(), unlockCar(), startCar(), turnOffCarEngine(),
+ *          Behavior: goToCar(), unlockCar(), lockCar(), startCar(), turnOffCarEngine(),
  *                  steer(), park()
  * Object: Car
  *          State: engineOn, isMoving, plateNumber
@@ -22,6 +22,7 @@ class Student {
 
     void goToCar(Location parkingLocation) {}
     Car unlockCar(CarKey key, Car car) {}
+    Car lockCar(CarKey key, Car car) {}
     void startCar(Car car) {
         car.engineOn = true;
     }
@@ -77,5 +78,6 @@ class DriveHome {
         // After arriving home
         ken.park(unlockedCar);
         ken.turnOffCarEngine(unlockedCar);
+	ken.lockCar(unlockedCar);
     }
 }
