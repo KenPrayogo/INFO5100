@@ -1,0 +1,111 @@
+/*
+ * Scenario: Travelling to LA
+ * Desc: A tourist is trying to find the cheapest flight to LA.
+ *
+ * Objects:
+ *
+ * Object: Tourist
+ *          State: name, passportId, email
+ *          Behavior: openWebsite(), fillSearchForm(), sortByPrice(), bookFlight(), providePaymentInfo()
+ * Object: Website
+ *          Behavior: showSearchForm(), showFlightPlans(), communicateError()
+ *                  generateTotalBill(), processBookingPayment(), emailReceiptAndItinerary()
+ * Object: BookingInfo
+ *          State: passenger, dateFlight, dateReturn, flightDeparture, flightReturn
+ * Object: Flight
+ *          State: aircraft, number, scheduledDateTime, departFrom, arriveTo
+ * Object: Aircraft
+ *          State: code
+ * Object: CreditCard
+ *          State: number, ownerName, expMonth, expYear, securityCode
+ */
+import java.util.Date;
+
+class Tourist {
+    String name, passportId, email;
+
+    void openWebsite(Website websiteName) {}
+    void fillSearchForm(BookingInfo info) {}
+    Flight[] sortByPrice(Flight[] listedFlights, boolean isAscending) {}
+    void bookFlight(BookingInfo info) {}
+    void providePaymentInfo(CreditCard card, float amount) {}
+}
+
+class Website {
+    void showSearchForm() {}
+    Flight[] showFlightPlans(BookingInfo bookingInfo, boolean departureLeg) {}
+    float generateTotalBill(BookingInfo info) {}
+    boolean processBookingPayment() {
+        // Returns true if payment is successful, false otherwise
+    }
+    void emailReceiptAndItinerary(String touristEmail) {}
+    void communicateError() {}
+}
+
+class BookingInfo {
+    String departFrom, destination;
+    Date dateFlight, dateReturn;
+    Flight flightDeparture, flightReturn;
+    Tourist passenger;
+}
+
+class Flight {
+    String number;
+    Aircraft aircraft;
+    Date scheduledDateTime;
+    String departFrom, arriveTo;
+}
+
+class Aircraft {
+    String code;
+}
+
+class CreditCard {
+    String number, ownerName;
+    int expMonth, expYear, securityCode;
+}
+
+class SearchAndBookFlight {
+    public static void main(String args[]) {
+        Tourist ken = new Tourist();
+        Website expedia = new Website();
+        ken.name = "Ken Prayogo";
+        ken.passportId = "ABCD1234";
+        ken.email = "someemail@gmail.com";
+        BookingInfo bookingInfo = new BookingInfo();
+        bookingInfo.passenger = ken;
+        bookingInfo.departFrom = "Seattle";
+        bookingInfo.destination = "Los Angeles";
+        bookingInfo.dateFlight = new Date("2016-12-25");
+        bookingInfo.dateReturn = new Date("2016-12-30");
+
+        ken.openWebsite(expedia);
+        expedia.showSearchForm();
+        ken.fillSearchForm(bookingInfo);
+        // Select departure flight
+        Flight[] flights = expedia.showFlightPlans(bookingInfo, true);
+        Flight[] sortedFlights = ken.sortByPrice(flights, true); // Use Ascending
+        bookingInfo.flightDeparture = sortedFlights[0]; // Tourist makes a choice
+        // Select return flight
+        Flight[] flightsReturn = expedia.showFlightPlans(bookingInfo, false);
+        Flight[] sortedFlightsReturn = ken.sortByPrice(flightsReturn, true); // Use Ascending
+        bookingInfo.flightReturn = sortedFlightsReturn[0]; // Tourist makes a choice
+        ken.bookFlight(bookingInfo);
+        float totalDue = expedia.generateTotalBill(bookingInfo);
+        // Payment
+        CreditCard kensCard = new CreditCard();
+        kensCard.number = "1111-1111-1111-1111";
+        kensCard.ownerName = "Ken Prayogo";
+        kensCard.expMonth = 12;
+        kensCard.expYear = 2020;
+        kensCard.securityCode = 111;
+        ken.providePaymentInfo(kensCard, totalDue);
+        // System processing
+        boolean response = expedia.processBookingPayment();
+        if (response) {
+            expedia.emailReceiptAndItinerary(ken.email);
+        } else {
+            expedia.communicateError();
+        }
+    }
+}
