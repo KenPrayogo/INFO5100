@@ -35,13 +35,12 @@ class Student {
 }
 
 class Car {
-    boolean engineOn;
-    boolean isMoving;
+    boolean engineOn, isMoving;
     String plateNumber;
 
     boolean drive() {
-        isMoving = this.engineOn;
-        return this.engineOn;
+        isMoving = this.engineOn; // Can't move if engine is off
+        return this.engineOn; // Returns true if the car can drive
     }
 }
 
