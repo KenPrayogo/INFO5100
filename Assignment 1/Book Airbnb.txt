@@ -5,14 +5,13 @@
  * Objects:
  *
  * Object: Tourist
- *          State: name, email, destination
+ *          State: name, email
  *          Behavior: useApp(), fillSearchForm(), bookHouse(), providePaymentInfo()
  * Object: App
- *          State:
  *          Behavior: showSearchForm(), showAvailableHouses(), communicateError()
  *                  generateTotalBill(), processBookingPayment(), notifyHost(), emailReceipt()
  * Object: BookingInfo
- *          State: dateCheckIn, dateCheckOut, houseToBook
+ *          State: destination, dateCheckIn, dateCheckOut, houseToBook
  * Object: House
  *          State: id, address, ratePerNight
  * Object: Host
@@ -23,10 +22,10 @@
 import java.util.Date;
 
 class Tourist {
-    String name, destination, email;
+    String name, email;
 
     void useApp(App appName) {}
-    void fillSearchForm(String destination, BookingInfo info) {}
+    void fillSearchForm(BookingInfo info) {}
     void bookHouse(BookingInfo info) {}
     void providePaymentInfo(CreditCard card, float amount) {}
 }
@@ -44,6 +43,7 @@ class App {
 }
 
 class BookingInfo {
+    String destination;
     Date dateCheckIn, dateCheckOut;
     House houseToBook;
 }
@@ -70,14 +70,14 @@ class BookHouse {
         App airbnb = new App();
         ken.name = "Ken Prayogo";
         ken.email = "someemail@gmail.com";
-        ken.destination = "Hawaii";
         BookingInfo bookingInfo = new BookingInfo();
+        bookingInfo.destination = "Hawaii";
         bookingInfo.dateCheckIn = new Date("2016-12-25");
         bookingInfo.dateCheckOut = new Date("2016-12-30");
 
         ken.useApp(airbnb);
         airbnb.showSearchForm();
-        ken.fillSearchForm(ken.destination, bookingInfo);
+        ken.fillSearchForm(bookingInfo);
         House[] houses = airbnb.showAvailableHouses();
         bookingInfo.houseToBook = houses[0]; // Tourist makes a choice
         ken.bookHouse(bookingInfo);
