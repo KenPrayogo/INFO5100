@@ -5,7 +5,7 @@
  * Objects:
  *
  * Object: Tourist
- *          State: name, emailAddress, destination
+ *          State: name, email, destination
  *          Behavior: useApp(), fillSearchForm(), bookHouse(), providePaymentInfo()
  * Object: App
  *          State:
