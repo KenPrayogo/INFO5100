@@ -1,0 +1,82 @@
+/*
+ * Scenario: Driving Home
+ * Desc: A student is driving home from school.
+ *
+ * Objects:
+ *
+ * Object: Student
+ *          State: car
+ *          Behavior: goToCar(), unlockCar(), startCar(), turnOffCarEngine(),
+ *                  steer(), park()
+ * Object: Car
+ *          State: engineOn, isMoving, plateNumber
+ *          Behavior: drive()
+ * Object: CarKey
+ *          State: pairedCar
+ * Object: Location
+ *          State: address, city, state
+ */
+
+class Student {
+    Car car;
+
+    void goToCar(Location parkingLocation) {}
+    Car unlockCar(CarKey key, Car car) {}
+    void startCar(Car car) {
+        car.engineOn = true;
+    }
+    void turnOffCarEngine(Car car) {
+        car.engineOn = false;
+    }
+    void steer(Location home) {}
+    void park(Car car) {
+        car.isMoving = false;
+    }
+}
+
+class Car {
+    boolean engineOn;
+    boolean isMoving;
+    String plateNumber;
+
+    boolean drive() {
+        isMoving = this.engineOn;
+        return this.engineOn;
+    }
+}
+
+class CarKey {
+    Car pairedCar;
+}
+
+class Location {
+    String address, city, state;
+}
+
+class DriveHome {
+    public static void main(String args[]) {
+        Student ken = new Student();
+        Car kensCar = new Car();
+        kensCar.plateNumber = "AAA123";
+        ken.car = kensCar;
+        CarKey key = new CarKey();
+        key.pairedCar = kensCar;
+        Location parking = new Location();
+        parking.address = "Terry Ave N. & Republican St.";
+        parking.city = "Seattle";
+        parking.state = "WA";
+        Location home = new Location();
+        parking.address = "123 XXX St.";
+        parking.city = "Seattle";
+        parking.state = "WA";
+        // Start
+        ken.goToCar(parking);
+        Car unlockedCar = ken.unlockCar(key, kensCar);
+        ken.startCar(unlockedCar);
+        ken.steer(home);
+        unlockedCar.drive();
+        // After arriving home
+        ken.park(unlockedCar);
+        ken.turnOffCarEngine(unlockedCar);
+    }
+}
