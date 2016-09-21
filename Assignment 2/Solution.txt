@@ -123,8 +123,7 @@ public class Assignment2 {
      */
     public int[] findTheLargestTwo(int[] nums) {
         Arrays.sort(nums); // Sort in ascending order
-        int lastIndex = nums.length;
-        int[] largestTwo = {nums[lastIndex - 1], nums[lastIndex - 2]};
+        int[] largestTwo = {nums[nums.length - 1], nums[nums.length - 2]};
         return largestTwo;
     }
 
