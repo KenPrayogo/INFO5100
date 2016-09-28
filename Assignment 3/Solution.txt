@@ -59,13 +59,13 @@ public class Assignment3 {
         for (int i = 0; i < tri.length; i++) {
             tri[i] = new int[rowLimit]; // Reassign array length
             for (int j = 0; j < tri[i].length; j++) {
-                // For stacks above 2
-                if (j >= 1 && j > 0 && j < (tri[i].length - 1)) {
+                // For all numbers in the middle, add up numbers from the previous row
+                if (j > 0 && j < (tri[i].length - 1)) {
                     // Add left and right
                     tri[i][j] = tri[i - 1][j - 1] + tri[i - 1][j];
                     continue;
                 }
-                // Otherwise add in 1
+                // 1 for the right/left-most number
                 tri[i][j] = 1;
             }
             rowLimit++;
