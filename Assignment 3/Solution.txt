@@ -1,0 +1,193 @@
+/*
+ * Assignment 3
+ * @author Ken Prayogo
+ */
+import java.util.ArrayList;
+import java.util.Arrays;
+public class Assignment3 {
+    /**
+     * Write a method to find N numbers which are power of three. e.g. n=4,
+     * return {1,3,9,27}
+     */
+    public int[] findPowerOfThree(int n) {
+        int[] results = new int[n];
+        int num;
+        for (int i = 0; i < n; i++) {
+            num = (int) Math.pow(3, i);
+            results[i] = num;
+        }
+        return results;
+    }
+
+    /**
+     * Given a integer 'n', return n%count, count is the number of digits of n
+     * For example, n = 100, return 1
+     */
+    public int countDigits(int n) {
+        int count = 0;
+        int nCopy = n;
+        while (nCopy > 0) {
+            nCopy = nCopy / 10; // Takes out one digit
+            count++;
+        }
+        return n % count;
+    }
+
+    /**
+     * Given a integer 'n', if n is odd, print n odd numbers, if n is even,
+     * print n even numbers. For example, n = 3, print 1 3 5 n = 4, print 0 2 4
+     * 6
+     */
+    public void printNumbers(int n) {
+        int num = 1;
+        if (n % 2 == 0) {
+            num = 0;
+        }
+        for (int i = 0; i < n; i++) {
+            System.out.println(num);
+            num += 2;
+        }
+    }
+
+    /**
+     * Given numRows, generate the first numRows of Pascal's triangle. For
+     * example, given numRows = 5, return: [1] [1,1] [1,2,1] [1,3,3,1]
+     * [1,4,6,4,1]
+     */
+    public int[][] generatePascalsTriangle(int n) {
+        int[][] tri = new int[n][5];
+        int rowLimit = 1;
+        for (int i = 0; i < tri.length; i++) {
+            tri[i] = new int[rowLimit]; // Reassign array length
+            for (int j = 0; j < tri[i].length; j++) {
+                // For stacks above 2
+                if (j >= 1 && j > 0 && j < (tri[i].length - 1)) {
+                    // Add left and right
+                    tri[i][j] = tri[i - 1][j - 1] + tri[i - 1][j];
+                    continue;
+                }
+                // Otherwise add in 1
+                tri[i][j] = 1;
+            }
+            rowLimit++;
+        }
+        return tri;
+    }
+
+    /**
+     * Write a function that takes a string as input and reverse only the vowels
+     * of a string. For example: Given s = "hello", return "holle".
+     */
+    public String reverseVowels(String s) {
+        String vowels = "aeiouAEIOU";
+        char[] poppedVowels = new char[s.length()];
+        int popIndex = 0;
+        String reversed = "";
+        // Loop first to take out the vowels (reverse loop)
+        for (int i = s.length() - 1; i >= 0; i--) {
+            char letter = s.charAt(i);
+            // If vowel, save it to an array
+            if (vowels.indexOf(letter) >= 0) {
+                poppedVowels[popIndex] = letter;
+                popIndex++;
+            }
+        }
+        popIndex = 0;
+        // Loop again and build String with reversed vowels
+        for (int j = 0; j < s.length(); j++) {
+            char letter = s.charAt(j);
+            if (vowels.indexOf(letter) >= 0) {
+                reversed += poppedVowels[popIndex];
+                popIndex++;
+                continue;
+            }
+            reversed += letter;
+        }
+        return reversed;
+    }
+
+    /**
+     * Given a string s consists of upper/lower-case alphabets and empty space
+     * characters ' ', return the length of last word in the string. If the last
+     * word does not exist, return 0. Note: A word is defined as a character
+     * sequence consists of non-space characters only.
+     */
+    public int lengthOfLastWord(String str) {
+        String lastWord = "";
+        int startIndex = 0;
+        for (int i = 0; i < str.length(); i++) {
+            // If space is detected, start extracting the word after
+            if (str.charAt(i) == ' ') {
+                lastWord = ""; // Empty the string again
+                startIndex = i + 1;
+            }
+            // Take out the word after a space
+            if (i >= startIndex) {
+                lastWord += str.charAt(i);
+            }
+        }
+        return lastWord.length();
+    }
+
+    /**
+     * Reverse a string by words. Do not use 'split' function. e.g. "I like
+     * soccer" --> "soccer like I"
+     */
+    public String reverseString2(String str) {
+        String reversed = "";
+        String[] words = new String[str.length()];
+        int wordsIndex = 0;
+        words[wordsIndex] = "";
+        for (int i = 0; i < str.length(); i++) {
+            char letter = str.charAt(i);
+            // Increment array index if space is found
+            if (letter == ' ') {
+                wordsIndex++;
+                words[wordsIndex] = "";
+            } else {
+                // Otherwise keep adding letters to the array space
+                words[wordsIndex] += letter;
+            }
+        }
+        for (int j = words.length - 1; j >= 0; j--) {
+            // Skip empty
+            if (words[j] == null) {
+                continue;
+            }
+            // Otherwise add word to the String with space
+            reversed += words[j] + " ";
+        }
+        return reversed;
+    }
+
+    // Bonus
+    /**
+     * A robot from Mars send a long message to Earth which only contains many
+     * "SOS", like "SOSSOS", "SOSSOSSOSSOSSOS" But the radiation from universe
+     * changed some characters of the massage. Write a method to count how many
+     * characters were changed. For example, "SOSSOSSOS" might be changed to
+     * "SOSSUSSOP", then your method should return 2. The message was consisted
+     * by "SOS" so its length will be multiple of 3. You could assume the
+     * message only contains upper letter.
+     */
+    public int checkMessage(String message) {
+        String msg = "SOS";
+        int changed = 0;
+        for (int i = 0; i < message.length(); i++) {
+            // Check every multiples of 3
+            if ((i + 1) % 3 == 0) {
+                int countdown = 2;
+                String sos = "";
+                while (countdown >= 0) {
+                    sos += message.charAt(i - countdown);
+                    countdown--;
+                }
+                // Check for match
+                if (!sos.equals(msg)) {
+                    changed++;
+                }
+            }
+        }
+        return changed;
+    }
+}
