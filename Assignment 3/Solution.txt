@@ -2,7 +2,6 @@
  * Assignment 3
  * @author Ken Prayogo
  */
-import java.util.ArrayList;
 import java.util.Arrays;
 public class Assignment3 {
     /**
