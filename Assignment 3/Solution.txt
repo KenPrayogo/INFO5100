@@ -172,19 +172,18 @@ public class Assignment3 {
     public int checkMessage(String message) {
         String msg = "SOS";
         int changed = 0;
-        for (int i = 0; i < message.length(); i++) {
-            // Check every multiples of 3
-            if ((i + 1) % 3 == 0) {
-                int countdown = 2;
-                String sos = "";
-                while (countdown >= 0) {
-                    sos += message.charAt(i - countdown);
-                    countdown--;
-                }
-                // Check for match
-                if (!sos.equals(msg)) {
-                    changed++;
-                }
+        // Check every multiples of 3 (starting index 2)
+        for (int i = 2; i < message.length(); i+=3) {
+            int countdown = 2;
+            String sos = "";
+            // Take 3 characters
+            while (countdown >= 0) {
+                sos += message.charAt(i - countdown);
+                countdown--;
+            }
+            // Check for exact match
+            if (!sos.equals(msg)) {
+                changed++;
             }
         }
         return changed;
