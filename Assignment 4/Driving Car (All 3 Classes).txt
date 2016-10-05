@@ -44,6 +44,20 @@ public class Car {
     public void engineOff() {
         isRunning = false;
     }
+
+    // Other functions
+    public void runCar(int miles) {
+        double toConsume = miles * consumeRate;
+        if (isRunning && gasTank.getGasLevel() >= toConsume) {
+            gasTank.useGas(toConsume);
+            System.out.println("Car is driving " + miles + " miles... Gas remaining: " + gasTank.getGasLevel());
+        } else if (!isRunning) {
+            System.out.println("Car engine is still off. Please startCar() before driving.");
+        } else {
+            System.out.println("Not enough gas to drive " + miles + " miles, please refill. Gas remaining: " + gasTank.getGasLevel());
+            System.out.println("Gas level needed: " + (toConsume - gasTank.getGasLevel()));
+        }
+    }
 }
 
 public class Driver {
@@ -55,16 +69,7 @@ public class Driver {
 
     // Functions
     public void drive(int miles) {
-        double gasToUse = miles * car.getConsumeRate();
-        // Only drive if car is running there is enough gas left
-        if (car.isRunning() && car.getGasTank().getGasLevel() >= gasToUse) {
-            car.getGasTank().useGas(gasToUse);
-            System.out.println("Car is driving " + miles + " miles... Gas remaining: " + car.getGasTank().getGasLevel());
-        } else if (!car.isRunning()) {
-            System.out.println("Car engine is still off. Please startCar() before driving.");
-        } else {
-            System.out.println("Not enough gas, please refill. Gas remaining: " + car.getGasTank().getGasLevel());
-        }
+        car.runCar(miles);
     }
 
     public void startCar() {
@@ -81,6 +86,7 @@ public class Driver {
         } else {
             car.getGasTank().addGas(amt);
             System.out.println("Refilled! Current gas level: " + car.getGasTank().getGasLevel());
+            System.out.println("The car can now run for " + (car.getGasTank().getGasLevel() / car.getConsumeRate()) + " miles.");
         }
     }
 }
