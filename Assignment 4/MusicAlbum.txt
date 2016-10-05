@@ -1,0 +1,33 @@
+public class MusicAlbum {
+
+    class Album {
+        private String albumTitle;
+        private String singer;
+        private double price;
+
+        // Constructor
+        public Album(String albumTitle, String singer, double price) {
+            this.albumTitle = albumTitle;
+            this.singer = singer;
+            this.price = price;
+        }
+
+        // Getters
+        public String getAlbumTitle() {
+            return albumTitle;
+        }
+
+        public String getSinger() {
+            return singer;
+        }
+
+        public double getPrice() {
+            return price;
+        }
+
+        // Setters
+        public void setPrice(double price) {
+            this.price = price;
+        }
+    }
+}

@@ -1,0 +1,108 @@
+public class GasTank {
+    private double amount = 0;
+
+    public void addGas(double amt) {
+        amount += amt;
+    }
+
+    public void useGas(double amt) {
+        amount -= amt;
+    }
+
+    public double getGasLevel() {
+        return amount;
+    }
+}
+
+public class Car {
+    private GasTank gasTank;
+    private boolean isRunning;
+    private double consumeRate;
+
+    public Car() {
+        this.gasTank = new GasTank();
+        this.isRunning = false;
+        this.consumeRate = 1;
+    }
+
+    // Getters
+    public GasTank getGasTank() {
+        return gasTank;
+    }
+    public double getConsumeRate() {
+        return consumeRate;
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    // Setters
+    public void engineOn() {
+        isRunning = true;
+    }
+    public void engineOff() {
+        isRunning = false;
+    }
+}
+
+public class Driver {
+    private Car car;
+
+    public Driver() {
+        this.car = new Car();
+    }
+
+    // Functions
+    public void drive(int miles) {
+        double gasToUse = miles * car.getConsumeRate();
+        // Only drive if car is running there is enough gas left
+        if (car.isRunning() && car.getGasTank().getGasLevel() >= gasToUse) {
+            car.getGasTank().useGas(gasToUse);
+            System.out.println("Car is driving " + miles + " miles... Gas remaining: " + car.getGasTank().getGasLevel());
+        } else if (!car.isRunning()) {
+            System.out.println("Car engine is still off. Please startCar() before driving.");
+        } else {
+            System.out.println("Not enough gas, please refill. Gas remaining: " + car.getGasTank().getGasLevel());
+        }
+    }
+
+    public void startCar() {
+        car.engineOn();
+    }
+
+    public void stopCar() {
+        car.engineOff();
+    }
+
+    public void refillCarTank(double amt) {
+        if (car.isRunning()) {
+            System.out.println("Please turn off car engine before refilling the gas tank.");
+        } else {
+            car.getGasTank().addGas(amt);
+            System.out.println("Refilled! Current gas level: " + car.getGasTank().getGasLevel());
+        }
+    }
+}
+
+// For testing
+public class Main {
+    public static void main(String args[]) {
+        Driver driver = new Driver();
+        // Try to drive car (still off)
+        driver.drive(1);
+        // Start car and try again
+        driver.startCar();
+        driver.drive(1);
+        // Try to refill gas
+        driver.refillCarTank(10);
+        // Turn off first then refill
+        driver.stopCar();
+        driver.refillCarTank(10);
+        // Start car and drive
+        driver.startCar();
+        driver.drive(7);
+        // Try driving again (not enough gas)
+        driver.drive(4);
+    }
+}
