@@ -58,6 +58,10 @@ public class Car {
             System.out.println("Gas level needed: " + (toConsume - gasTank.getGasLevel()));
         }
     }
+
+    public double getRange() {
+        return gasTank.getGasLevel() / consumeRate;
+    }
 }
 
 public class Driver {
@@ -86,7 +90,7 @@ public class Driver {
         } else {
             car.getGasTank().addGas(amt);
             System.out.println("Refilled! Current gas level: " + car.getGasTank().getGasLevel());
-            System.out.println("The car can now run for " + (car.getGasTank().getGasLevel() / car.getConsumeRate()) + " miles.");
+            System.out.println("The car can now run for " + car.getRange() + " miles.");
         }
     }
 }
