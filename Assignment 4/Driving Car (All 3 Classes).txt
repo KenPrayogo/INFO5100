@@ -46,7 +46,7 @@ public class Car {
     }
 
     // Other functions
-    public void runCar(int miles) {
+    public void runCar(double miles) {
         double toConsume = miles * consumeRate;
         if (isRunning && gasTank.getGasLevel() >= toConsume) {
             gasTank.useGas(toConsume);
@@ -72,7 +72,7 @@ public class Driver {
     }
 
     // Functions
-    public void drive(int miles) {
+    public void drive(double miles) {
         car.runCar(miles);
     }
 
