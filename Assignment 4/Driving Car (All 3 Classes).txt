@@ -16,12 +16,12 @@ public class GasTank {
 
 public class Car {
     private GasTank gasTank;
-    private boolean isRunning;
+    private boolean isEngineOn;
     private double consumeRate;
 
     public Car() {
         this.gasTank = new GasTank();
-        this.isRunning = false;
+        this.isEngineOn = false;
         this.consumeRate = 1;
     }
 
@@ -33,25 +33,25 @@ public class Car {
         return consumeRate;
     }
 
-    public boolean isRunning() {
-        return isRunning;
+    public boolean isEngineOn() {
+        return isEngineOn;
     }
 
     // Setters
     public void engineOn() {
-        isRunning = true;
+        isEngineOn = true;
     }
     public void engineOff() {
-        isRunning = false;
+        isEngineOn = false;
     }
 
     // Other functions
     public void runCar(double miles) {
         double toConsume = miles * consumeRate;
-        if (isRunning && gasTank.getGasLevel() >= toConsume) {
+        if (isEngineOn && gasTank.getGasLevel() >= toConsume) {
             gasTank.useGas(toConsume);
             System.out.println("Car is driving " + miles + " miles... Gas remaining: " + gasTank.getGasLevel());
-        } else if (!isRunning) {
+        } else if (!isEngineOn) {
             System.out.println("Car engine is still off. Please startCar() before driving.");
         } else {
             System.out.println("Not enough gas to drive " + miles + " miles, please refill. Gas remaining: " + gasTank.getGasLevel());
@@ -85,7 +85,7 @@ public class Driver {
     }
 
     public void refillCarTank(double amt) {
-        if (car.isRunning()) {
+        if (car.isEngineOn()) {
             System.out.println("Please turn off car engine before refilling the gas tank.");
         } else {
             car.getGasTank().addGas(amt);
