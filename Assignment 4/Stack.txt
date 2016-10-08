@@ -1,0 +1,31 @@
+import java.util.ArrayList;
+
+public class Stack {
+    private ArrayList<Integer> items;
+    private int capacity;
+
+    public Stack() {
+        this.items = new ArrayList<>();
+        capacity = 4;
+    }
+
+    public void push(int item) {
+        if (items.size() == capacity) {
+            System.out.println("The stack is full!");
+            return;
+        }
+        items.add(item);
+    }
+
+    public int pop() {
+        if (items.isEmpty()) {
+            System.out.println("The stack is empty.");
+            return 0;
+        }
+        int lastIndex = items.size() - 1;
+        int num = items.get(lastIndex);
+        items.remove(lastIndex);
+        items.trimToSize();
+        return num;
+    }
+}
