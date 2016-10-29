@@ -18,6 +18,8 @@ public class Pet {
         this.petName = petName;
         this.ownerName = ownerName;
         this.color = color;
+        // Default to unspecified
+        this.sex = 0;
     }
 
     public String getPetName() {
@@ -42,6 +44,8 @@ public class Pet {
                 return "Spayed";
             case genderNeutered:
                 return "Neutered";
+            case 0:
+                return "Unspecified";
             default:
                 return "Invalid gender ID";
         }
@@ -54,7 +58,8 @@ public class Pet {
     @Override
     public String toString() {
         return petName + " owned by " + ownerName + '\n' +
-                "Color: " + color;
+                "Color: " + color + '\n' +
+                "Sex: " + getSex();
     }
 
     public static Date convertDateIntToDate (int month, int day, int year) {

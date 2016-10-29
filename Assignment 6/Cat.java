@@ -34,6 +34,11 @@ public class Cat extends Pet implements Boardable {
     @Override
     public boolean boarding(int month, int day, int year) {
         Date givenDate = Pet.convertDateIntToDate(month, day, year);
-        return (givenDate.before(boardDateStart) || givenDate.after(boardDateEnd));
+        if (boardDateStart == null || boardDateEnd == null) {
+            System.out.println("This pet is missing a start/end date");
+            return false;
+        }
+        return (givenDate.equals(boardDateStart) || givenDate.equals(boardDateEnd))
+                || (givenDate.after(boardDateStart) && givenDate.before(boardDateEnd));
     }
 }
