@@ -45,7 +45,6 @@ public class MidtermFunctions {
     // Find max profit by buying/selling them.
     // e.g. [5,7,9,4,6,10] buy 5, sell 9, buy 4, sell 10
     public int maxProfit(int[] prices) {
-        HashMap<Integer,Integer> stocksOwned = new HashMap<>(); // PurchasedDay, Value
         List<Integer> daysToSell = new ArrayList<>();
         List<Integer> daysToBuy = new ArrayList<>();
         int profit = 0;
@@ -64,6 +63,7 @@ public class MidtermFunctions {
                     || ((i + 1) < prices.length && prices[i] > prices[i + 1]) )
                 ) {
                 daysToSell.add(i);
+                profit += prices[i];
             }
         }
         // Buy at the lowest point before the selling days - No duplicate transactions
@@ -77,27 +77,7 @@ public class MidtermFunctions {
             }
             if (prices[lowestBuy] < prices[sellDay]) {
                 daysToBuy.add(lowestBuy);
-            }
-        }
-        // Final loop to go over purchases
-        for (int i = 0; i < prices.length; i++) {
-            System.out.println("Day " + i);
-            // Buy in the listed days
-            if (daysToBuy.contains(i)) {
-                stocksOwned.put(i, prices[i]);
-                profit -= prices[i];
-                System.out.println("Buying for " + prices[i] + ".. Profit is now: " + profit);
-            }
-            // Sell every stocks purchased with less value than the sell points
-            if (daysToSell.contains(i)) {
-                Iterator it = stocksOwned.entrySet().iterator();
-                while (it.hasNext()) {
-                    Map.Entry pair = (Map.Entry)it.next();
-                    // Remove from ownedStock and sell for profit
-                    profit += prices[i];
-                    System.out.println("Selling " + pair.getValue() + " for " + prices[i] + ".. Profit is now: " + profit);
-                    it.remove();
-                }
+                profit -= prices[lowestBuy];
             }
         }
         return profit;
@@ -150,16 +130,16 @@ class Main {
     public static void main(String[] args) {
         MidtermFunctions fn = new MidtermFunctions();
 
-        System.out.println(fn.longestPalindrome("steponnopets"));
-        System.out.println(fn.longestPalindrome("Anna"));
-        System.out.println(fn.longestPalindrome("abcdef"));
-        System.out.println(fn.longestPalindrome("annaaff"));
+//        System.out.println(fn.longestPalindrome("steponnopets"));
+//        System.out.println(fn.longestPalindrome("Anna"));
+//        System.out.println(fn.longestPalindrome("abcdef"));
+//        System.out.println(fn.longestPalindrome("annaaff"));
 
-//        int[] stocks = {5,7,9,4,6,10};
+        int[] stocks = {5,7,9,4,6,10};
 //        int[] stocks = {1,2,3,4,5};
 //        int[] stocks = {5,4,3,2,1};
 //        int[] stocks = {1,3,5,4,2};
-        int[] stocks = {5,3,1,4,6};
+//        int[] stocks = {5,3,1,4,6};
         System.out.println(fn.maxProfit(stocks));
 
         int[] prob = {2,3,4,5,6,8,0};
