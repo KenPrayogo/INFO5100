@@ -43,7 +43,7 @@ public class MidtermFunctions {
 
     // index = day, value = stock price
     // Find max profit by buying/selling them.
-    // e.g. [5,7,9,4,6,10] buy 5,buy 7, sell 9, buy 4, buy 6, sell 10
+    // e.g. [5,7,9,4,6,10] buy 5, sell 9, buy 4, sell 10
     public int maxProfit(int[] prices) {
         HashMap<Integer,Integer> stocksOwned = new HashMap<>(); // PurchasedDay, Value
         List<Integer> daysToSell = new ArrayList<>();
@@ -66,12 +66,17 @@ public class MidtermFunctions {
                 daysToSell.add(i);
             }
         }
-        // Buy at every point before the selling days - No duplicate transactions
+        // Buy at the lowest point before the selling days - No duplicate transactions
         for (int sellDay: daysToSell) {
+            int lowestBuy = sellDay;
             for (int i = sellDay; i >= 0; i--) {
-                if (!daysToBuy.contains(i) && !daysToSell.contains(i) && prices[i] < prices[sellDay]) {
-                    daysToBuy.add(i);
+                if (!daysToBuy.contains(i) && !daysToSell.contains(i) && prices[i] < prices[sellDay]
+                        && prices[i] < prices[lowestBuy]) {
+                    lowestBuy = i;
                 }
+            }
+            if (prices[lowestBuy] < prices[sellDay]) {
+                daysToBuy.add(lowestBuy);
             }
         }
         // Final loop to go over purchases
