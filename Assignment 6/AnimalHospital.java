@@ -1,11 +1,11 @@
-import java.util.Date;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class AnimalHospital {
-    private HashSet<Pet> animals;
+    private Collection<Pet> animals;
 
     public AnimalHospital() {
-        animals = new HashSet<>();
+        animals = new ArrayList<>();
     }
 
     public void registerPet(Pet pet) {
